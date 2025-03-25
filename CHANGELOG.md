@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🚀 Features
+
+- *(index)* Add save and load functionality for Index using gob encoding/decoding
+
+### 📚 Documentation
+
+- Add first release in Changelog
+
 ## [0.1.0] - 2025-03-25
 
 ### 🚀 Features
