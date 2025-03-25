@@ -12,7 +12,7 @@ func configureRoutes(app *fiber.App) *fiber.App {
 	app.Get("/test", controller.Index)
 
 	// Search
-	app.Get("/api/search/:index/:query", controller.SearchQuery)
+	app.Get("/api/search/:query", controller.SearchQuery)
 
 	// Monitor
 	// app.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
