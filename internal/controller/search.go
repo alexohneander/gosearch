@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
-func SearchQuery(c *fiber.Ctx) error {
+func SearchQuery(c fiber.Ctx) error {
 	return c.SendString("Hello, World!")
 }

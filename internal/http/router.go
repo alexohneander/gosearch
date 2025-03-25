@@ -2,8 +2,8 @@ package http
 
 import (
 	"git.dev-null.rocks/alexohneander/gosearch/internal/controller"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/monitor"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/healthcheck"
 )
 
 func configureRoutes(app *fiber.App) *fiber.App {
@@ -15,7 +15,11 @@ func configureRoutes(app *fiber.App) *fiber.App {
 	app.Get("/api/search/:index/:query", controller.SearchQuery)
 
 	// Monitor
-	app.Get("/metrics", monitor.New(monitor.Config{Title: "gosearch Metrics"}))
+	// app.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
 
+	// Health Checks
+	app.Get(healthcheck.DefaultLivenessEndpoint, healthcheck.NewHealthChecker())
+	app.Get(healthcheck.DefaultReadinessEndpoint, healthcheck.NewHealthChecker())
+	app.Get(healthcheck.DefaultStartupEndpoint, healthcheck.NewHealthChecker())
 	return app
 }
