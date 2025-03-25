@@ -12,7 +12,7 @@ import (
 
 func SearchQuery(c *fiber.Ctx) error {
 	query := c.Params("query")
-	query = strings.TrimSpace(query)
+	query = strings.TrimSpace(strings.ToLower(query))
 
 	terms, queryType := parseQuery(query)
 	results := search.Search(terms, queryType, index.Index, index.DocFreq, len(index.Documents))

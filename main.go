@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	index.TestIndex()
+	// Initialize Index
+	index.CreateIndex()
 
 	// Start HTTP Server
 	http.StartService()
