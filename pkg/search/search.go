@@ -3,6 +3,8 @@ package search
 import (
 	"math"
 	"sort"
+
+	"git.dev-null.rocks/alexohneander/gosearch/pkg/index"
 )
 
 // SearchResult stores the document and its relevance score.
@@ -12,7 +14,7 @@ type SearchResult struct {
 }
 
 // Search processes different types of queries using TF-IDF scoring.
-func Search(terms []string, queryType string, index InvertedIndex, docFreq DocumentFrequency, numDocs int) []SearchResult {
+func Search(terms []string, queryType string, index index.InvertedIndex, docFreq index.DocumentFrequency, numDocs int) []SearchResult {
 	scores := make(map[string]float64)
 
 	if queryType == "AND" {
@@ -40,7 +42,7 @@ func Search(terms []string, queryType string, index InvertedIndex, docFreq Docum
 }
 
 // Helper function to score a single document based on terms
-func scoreDoc(terms []string, doc string, index InvertedIndex, docFreq DocumentFrequency, numDocs int) float64 {
+func scoreDoc(terms []string, doc string, index index.InvertedIndex, docFreq index.DocumentFrequency, numDocs int) float64 {
 	score := 0.0
 	for _, term := range terms {
 		tf := float64(index[term][doc])
@@ -52,7 +54,7 @@ func scoreDoc(terms []string, doc string, index InvertedIndex, docFreq DocumentF
 }
 
 // Helper function to intersect documents for AND logic
-func intersectDocs(terms []string, index InvertedIndex) []string {
+func intersectDocs(terms []string, index index.InvertedIndex) []string {
 	if len(terms) == 0 {
 		return nil
 	}

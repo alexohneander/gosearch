@@ -5,16 +5,17 @@ import (
 	"os"
 	"strings"
 
+	"git.dev-null.rocks/alexohneander/gosearch/pkg/index"
 	"git.dev-null.rocks/alexohneander/gosearch/pkg/search"
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 )
 
-func SearchQuery(c fiber.Ctx) error {
+func SearchQuery(c *fiber.Ctx) error {
 	query := c.Params("query")
 	query = strings.TrimSpace(query)
 
 	terms, queryType := parseQuery(query)
-	results := search.Search(terms, queryType, search.Index, search.DocFreq, len(search.Files))
+	results := search.Search(terms, queryType, index.Index, index.DocFreq, len(index.Documents))
 
 	var response string
 

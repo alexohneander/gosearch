@@ -2,11 +2,11 @@ package main
 
 import (
 	"git.dev-null.rocks/alexohneander/gosearch/internal/http"
-	"git.dev-null.rocks/alexohneander/gosearch/pkg/search"
+	"git.dev-null.rocks/alexohneander/gosearch/pkg/index"
 )
 
 func main() {
-	search.TestIndex()
+	index.TestIndex()
 
 	// Start HTTP Server
 	http.StartService()
