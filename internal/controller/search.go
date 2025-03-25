@@ -12,7 +12,7 @@ import (
 
 func SearchQuery(c *fiber.Ctx) error {
 	query := c.Params("query")
-	query = strings.TrimSpace(strings.ToLower(query))
+	query = strings.TrimSpace(query)
 
 	terms, queryType := parseQuery(query)
 	results := search.Search(terms, queryType, index.Index, index.DocFreq, len(index.Documents))
@@ -29,12 +29,12 @@ func SearchQuery(c *fiber.Ctx) error {
 
 // parseQuery parses the query to determine query type and terms
 func parseQuery(query string) ([]string, string) {
-	if strings.Contains(query, "AND") {
-		return strings.Split(query, " AND "), "AND"
-	} else if strings.Contains(query, "OR") {
-		return strings.Split(query, " OR "), "OR"
+	if strings.Contains(strings.ToLower(query), "AND") {
+		return strings.Split(strings.ToLower(query), " AND "), "AND"
+	} else if strings.Contains(strings.ToLower(query), "OR") {
+		return strings.Split(strings.ToLower(query), " OR "), "OR"
 	}
-	return strings.Fields(query), "SIMPLE"
+	return strings.Fields(strings.ToLower(query)), "SIMPLE"
 }
 
 // phraseMatch checks if all terms appear in the given document in sequence
