@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// Initialize Index
-	index.CreateIndex()
+	index.InitIndex("default")
 
 	// Start HTTP Server
 	http.StartService()
