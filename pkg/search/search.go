@@ -1,10 +1,12 @@
 package search
 
 import (
+	"fmt"
 	"math"
 	"sort"
 
 	"git.dev-null.rocks/alexohneander/gosearch/pkg/index"
+	"github.com/gofiber/fiber/v2/log"
 )
 
 // SearchResult stores the document and its relevance score.
@@ -48,8 +50,8 @@ func scoreDoc(terms []string, doc string, index index.InvertedIndex, docFreq ind
 		tf := float64(index[term][doc])
 		idf := math.Log(float64(numDocs) / float64(docFreq[term]))
 		score += tf * idf
-		//fmt.Printf("Score: %f64 %f64 %f64\n", tf, idf, score)
 	}
+	log.Debug(fmt.Sprintf("Score: %f64", score))
 	return score
 }
 
