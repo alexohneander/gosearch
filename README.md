@@ -1,4 +1,6 @@
 [![Quality Gate Status](https://sonar.dev-null.rocks/api/project_badges/measure?project=gosearch&metric=alert_status&token=sqb_4d86c3b73f6837027a319df42d2f70ccb46e56a2)](https://sonar.dev-null.rocks/dashboard?id=gosearch)
+[![Security Rating](https://sonar.dev-null.rocks/api/project_badges/measure?project=gosearch&metric=software_quality_security_rating&token=sqb_4d86c3b73f6837027a319df42d2f70ccb46e56a2)](https://sonar.dev-null.rocks/dashboard?id=gosearch)
+[![Lines of Code](https://sonar.dev-null.rocks/api/project_badges/measure?project=gosearch&metric=ncloc&token=sqb_4d86c3b73f6837027a319df42d2f70ccb46e56a2)](https://sonar.dev-null.rocks/dashboard?id=gosearch)
 
 # gosearch
 
