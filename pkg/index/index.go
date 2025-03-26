@@ -87,7 +87,7 @@ func AddDocToIndex(url string, content string) {
 	scanner.Split(bufio.ScanWords)
 
 	for scanner.Scan() {
-		word := strings.ToLower(strings.Trim(scanner.Text(), ",.!?"))
+		word := strings.ToLower(strings.Trim(scanner.Text(), ",.!?&<>;:=§$%{}[]()|"))
 
 		if Index[word] == nil {
 			Index[word] = make(map[string]int)
@@ -100,7 +100,7 @@ func AddDocToIndex(url string, content string) {
 		}
 	}
 
-	updateIndex("default")
+	go updateIndex("default")
 }
 
 func writeStructToFile(filename string, data interface{}) error {
