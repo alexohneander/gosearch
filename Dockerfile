@@ -17,8 +17,8 @@ WORKDIR /
 # Copy the built binary from the builder stage
 COPY --from=builder /app/gosearch .
 # Add executing User
-RUN addgroup gosearch 
-RUN useradd -g gosearch gosearch
+RUN addgroup gosearch \
+&& useradd -g gosearch gosearch
 USER gosearch
 # Expose the application port
 EXPOSE 3000
