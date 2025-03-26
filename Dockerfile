@@ -13,9 +13,13 @@ RUN go build -o gosearch .
 # Use a minimal base image for final deployment
 FROM alpine:latest
 # Set working directory in the container
-WORKDIR /root/
+WORKDIR /
 # Copy the built binary from the builder stage
 COPY --from=builder /app/gosearch .
+# Add executing User
+RUN addgroup gosearch 
+RUN useradd -g gosearch gosearch
+USER gosearch
 # Expose the application port
 EXPOSE 3000
 # Run the application
