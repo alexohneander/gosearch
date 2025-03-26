@@ -7,32 +7,82 @@ on:
 
 
 jobs:
-  changelog:
-    name: Generate changelog
+  build-and-push-container:
+    name: Build Container
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          fetch-depth: 0
+          images: |
+            git.dev-null.rocks/alexohneander/gosearch
+          tags: |
+            type=schedule,pattern={{date 'YYYYMMDDHHMM'}}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
 
-      - name: Generate changelog
-        uses: orhun/git-cliff-action@v4
-        with:
-          config: cliff.toml
-          args: --verbose
-        env:
-          OUTPUT: CHANGELOG.md
-          GITHUB_REPO: ${{ github.repository }}
-
-      - name: Commit
+      - name: Set up Docker Context for Buildx
+        id: buildx-context
         run: |
-          git checkout <branch>
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          set +e
-          git add CHANGELOG.md
-          git commit -m "Update changelog"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git <branch>
+          export DOCKER_HOST=tcp://docker:2376/
+          export DOCKER_TLS_CERTDIR="/certs"
+          export DOCKER_TLS_VERIFY=1
+          export DOCKER_CERT_PATH="/certs/client"
+          docker context create builders
+
+      - name: Setup Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          # buildkitd-flags: --debug
+          endpoint: builders
+        env:
+          DOCKER_HOST: "tcp://docker:2376/"
+          DOCKER_TLS_CERTDIR: "/certs"
+          DOCKER_TLS_VERIFY: 1
+          DOCKER_CERT_PATH: "/certs/client"
+
+      - name: Login to Gitea
+        uses: docker/login-action@v3
+        with:
+          registry: git.dev-null.rocks
+          username: ${{ gitea.actor }}
+          password: ${{ secrets.GA_TOKEN }}
+
+      - name: Build and push the image
+        uses: docker/build-push-action@v5
+        with:
+          file: Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+        env:
+          DOCKER_HOST: "tcp://docker:2376/"
+          DOCKER_TLS_CERTDIR: "/certs"
+          DOCKER_TLS_VERIFY: 1
+          DOCKER_CERT_PATH: "/certs/client"
+
+      # - name: Generate changelog
+      #   uses: orhun/git-cliff-action@v4
+      #   with:
+      #     config: cliff.toml
+      #     args: --verbose
+      #   env:
+      #     OUTPUT: CHANGELOG.md
+      #     GITHUB_REPO: ${{ github.repository }}
+
+      # - name: Commit
+      #   run: |
+      #     git checkout <branch>
+      #     git config user.name 'github-actions[bot]'
+      #     git config user.email 'github-actions[bot]@users.noreply.github.com'
+      #     set +e
+      #     git add CHANGELOG.md
+      #     git commit -m "Update changelog"
+      #     git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git <branch>
