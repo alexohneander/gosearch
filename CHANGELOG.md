@@ -2,15 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.1.1] - 2025-03-26
 
 ### 🚀 Features
 
 - *(index)* Add save and load functionality for Index using gob encoding/decoding
 
+### 🐛 Bug Fixes
+
+- Updated AddDocToIndex function to ignore additional special characters in scanner.Text()
+- Add sonarqube properties
+- Add default log level
+
+### 🚜 Refactor
+
+- Search logic to improve performance and reduce false positives by making query case-insensitive for simple queries and using trimmed whitespace in phrases
+
 ### 📚 Documentation
 
 - Add first release in Changelog
+- Update changelog
+- Add sonarqube badge
+
+### ⚙️ Miscellaneous Tasks
+
+- Add sonarqube pipeline
+- Update sonarqube pipeline
+- Add quality gate
 
 ## [0.1.0] - 2025-03-25
 
