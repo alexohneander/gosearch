@@ -11,7 +11,7 @@ COPY . .
 RUN go build -o gosearch .
 
 # Use a minimal base image for final deployment
-FROM alpine:3.22
+FROM alpine:3.23
 # Set working directory in the container
 WORKDIR /
 # Copy the built binary from the builder stage
