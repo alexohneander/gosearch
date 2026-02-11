@@ -2,7 +2,7 @@ module git.dev-null.rocks/alexohneander/gosearch
 
 go 1.23.5
 
-require github.com/gofiber/fiber/v2 v2.52.8
+require github.com/gofiber/fiber/v2 v2.52.11
 
 require (
 	github.com/mattn/go-runewidth v0.0.16 // indirect
